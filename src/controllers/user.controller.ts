@@ -4,11 +4,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { config } from "../config/config.js";
 import type { IUserInput } from "../types/user.types.js";
-import { createCustomError } from "../utils/error.js";
 import { EmailService } from "../services/email.service.js";
 import crypto from 'crypto';
-import { error } from "console";
-import { success } from "zod";
 
 export class UserController {
     static async signup(req: Request, res: Response): Promise<void> {
@@ -130,8 +127,6 @@ export class UserController {
 
     static async forgotPassword(req: Request, res: Response): Promise<void> {
         try {
-            console.log("forgotPasswordforgotPasswordforgotPasswordforgotPassword");
-            
             const { email } = req.body;
             const user = await User.findOne({ email });
             if (!user) {
