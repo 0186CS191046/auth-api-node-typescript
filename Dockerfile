@@ -1,20 +1,26 @@
-FROM node:20.16-alpine3.19 AS base
+FROM node:20.16-alpine3.19 AS build
 
-# Change the working directory to /dist
-WORKDIR /dist
+WORKDIR /app
 
-# Copy the package.json and package-lock.json files to the /build directory
 COPY package*.json ./
 
-# Install production dependencies and clean the cache
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci
 
-# Copy the entire source code into the container
 COPY . .
 
-# Document the port that may need to be published
+RUN npm run build
+
+
+FROM node:20.16-alpine3.19 AS production
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci --omit=dev
+
+COPY --from=build /app/dist ./dist
+
 EXPOSE 3000
 
-
-# Start the application
-CMD ["node", "/server.js"]
+CMD ["node", "dist/server.js"]
