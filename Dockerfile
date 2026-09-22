@@ -17,4 +17,4 @@ EXPOSE 3000
 
 
 # Start the application
-CMD ["node", "dist/server.js"]
+CMD ["node", "/server.js"]
