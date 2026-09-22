@@ -24,7 +24,9 @@ export const config = {
         host : process.env.EMAIL_HOST,
         port : process.env.EMAIL_PORT,
         user : process.env.EMAIL_USER,
-        pass : process.env.EMAIL_PASS
+        pass : process.env.EMAIL_PASS,
+        render_api_key : process.env.RENDER_API_KEY_FOR_EMAIL,
+        from : process.env.EMAIL_FROM || "onboarding@resend.dev"
     },
     frontend :{
         uri : process.env.FRONTEND_URL
