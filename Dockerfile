@@ -1,4 +1,4 @@
-FROM node:20.16-alpine3.19 AS build
+FROM node:20.19-alpine AS build
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ COPY . .
 RUN npm run build
 
 
-FROM node:20.16-alpine3.19 AS production
+FROM node:20.19-alpine AS production
 
 WORKDIR /app
 
