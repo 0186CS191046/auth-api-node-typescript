@@ -130,6 +130,8 @@ export class UserController {
 
     static async forgotPassword(req: Request, res: Response): Promise<void> {
         try {
+            console.log("forgotPasswordforgotPasswordforgotPasswordforgotPassword");
+            
             const { email } = req.body;
             const user = await User.findOne({ email });
             if (!user) {
@@ -153,6 +155,7 @@ export class UserController {
                     status: 'success',
                     message: 'Password reset instructions sent to your email',
                 });
+                return;
             } catch (error) {
                 console.error("Failed to send password reset email : ", error);
                 user.resetPasswordToken = "";
@@ -162,6 +165,7 @@ export class UserController {
                     status: 'error',
                     message: 'Failed to send password reset email. Please try again later!'
                 });
+                return;
             }
         } catch (error) {
             console.error('Forgot password error:', error);
