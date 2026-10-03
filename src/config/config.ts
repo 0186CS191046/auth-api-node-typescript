@@ -15,7 +15,9 @@ export const config = {
     },
     jwt : {
         secret : process.env.JWT_SECRET || 'default-secret-key',
-        expiresIn : process.env.JWT_EXPIRES_IN as SignOptions["expiresIn"] || '1h'
+        refreshSecret : process.env.REFRESH_SECRET || 'default-refresh-secret-key',
+        expiresIn : process.env.JWT_EXPIRES_IN as SignOptions["expiresIn"] || '1h',
+        refreshExpiresIn : process.env.REFRESH_EXPIRES_IN as SignOptions["expiresIn"]  || '7d'
     },
     bcrypt:{
         saltRound : process.env.SALT_ROUND || 10
@@ -27,6 +29,9 @@ export const config = {
         pass : process.env.EMAIL_PASS,
         render_api_key : process.env.RENDER_API_KEY_FOR_EMAIL,
         from : process.env.EMAIL_FROM || "onboarding@resend.dev"
+    },
+    redis :{
+        url: process.env.REDIS_URL || ""
     },
     frontend :{
         uri : process.env.FRONTEND_URL

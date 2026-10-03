@@ -6,6 +6,7 @@ import { config } from "../config/config.js";
 import type { IUserInput } from "../types/user.types.js";
 import { EmailService } from "../services/email.service.js";
 import crypto from 'crypto';
+import { client } from "../config/redis.js";
 
 export class UserController {
     static async signup(req: Request, res: Response): Promise<void> {
@@ -73,9 +74,12 @@ export class UserController {
                 return;
             }
             const token = jwt.sign({ userId: isExistingUser._id }, config.jwt.secret, { expiresIn: config.jwt.expiresIn });
+            
+            const refreshToken = jwt.sign({userId:isExistingUser._id}, config.jwt.refreshSecret, { expiresIn: config.jwt.refreshExpiresIn })
+            client.set(`refreshToken:${isExistingUser._id}`,refreshToken,{expiration:{type:"EX", value :7*24*60*60}});
             res.status(200).json({
                 status: 'success', data: {
-                    token, user: {
+                    token, refreshToken , user: {
                         id: isExistingUser._id,
                         name: isExistingUser.name,
                         email: isExistingUser.email,
